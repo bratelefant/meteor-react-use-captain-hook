@@ -13,12 +13,12 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('2.7.1');
   api.use('ecmascript');
-  api.mainModule('use-captain-hook.js');
+  api.mainModule('meteor-react-use-captain-hook.js');
 });
 
 Package.onTest(function(api) {
   api.use('ecmascript');
   api.use('tinytest');
-  api.use('bratelefant:use-captain-hook');
-  api.mainModule('use-captain-hook-tests.js');
+  api.use('bratelefant:meteor-react-use-captain-hook');
+  api.mainModule('meteor-react-use-captain-hook-tests.js');
 });
