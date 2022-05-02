@@ -19,6 +19,7 @@ Package.onUse(function (api) {
   api.use("ejson");
   api.use("typescript");
   api.use("mongo");
+
   Npm.depends({
     dexie: "3.2.1",
     underscore: "1.13.1",
