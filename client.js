@@ -1,9 +1,14 @@
 import { useTracker } from "meteor/react-meteor-data";
-import {
-  GroundedCollection,
-  waitUntilReactive,
-} from "./lib/GroundedCollection";
+import { GroundedCollection } from "./lib/GroundedCollection";
 
+/**
+ * Fetch data via Hook
+ * @param {String} subname Name of the subscription
+ * @param {Object} collection The Meteor Collection
+ * @param {Object} filter Filter applied to result fetching
+ * @param {Boolean} [groundit=true] If true, data will be taken to the ground
+ * @returns
+ */
 export const useCaptainHook = (
   subname,
   collection,
@@ -15,19 +20,17 @@ export const useCaptainHook = (
 
     const gcol = groundit && new GroundedCollection(collection._name);
 
-    gcol.waitUntilLoaded();
+    gcol && gcol.waitUntilLoaded();
 
     const handler = Meteor.subscribe(subname);
 
-    if (gcol) {
-      gcol.observeSource(collection.find());
-    }
+    gcol && gcol.observeSource(collection.find());
 
     if (!gcol && !handler.ready()) {
       return { ...noDataAvailable, loading: true };
     }
 
-    if (gcol) gcol.keep(collection.find(filter));
+    gcol && gcol.keep(collection.find(filter));
 
     const data = gcol
       ? gcol.find(filter).fetch()
