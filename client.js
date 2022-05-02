@@ -36,7 +36,7 @@ export const useCaptainHook = (
   if (ttl && typeof ttl !== "number") console.warn("TTL must be int.");
 
   if (!filter) filter = {};
-
+/*
   const [offlineData, setOfflineData] = React.useState([]);
   const [ready, setReady] = React.useState(false);
 
@@ -76,7 +76,7 @@ export const useCaptainHook = (
   }
 
   if (ready && offlineCol) return { data: offlineData, loading: false };
-
+*/
   const { data, loading } = useTracker(() => {
     const noDataAvailable = { data: [] };
 
