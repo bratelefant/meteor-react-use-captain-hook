@@ -18,6 +18,14 @@ export const useCaptainHook = (
   const { data, loading } = useTracker(() => {
     const noDataAvailable = { data: [] };
 
+    if (typeof subname !== "string")
+      console.warn("Subscription must be a string.");
+
+    if (typeof collection !== "object")
+      console.warn("Collection must be an object.");
+
+    if (!filter) filter = {};
+
     const gcol = groundit && new GroundedCollection(collection._name);
 
     gcol && gcol.waitUntilLoaded();
