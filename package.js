@@ -15,10 +15,17 @@ Package.onUse(function (api) {
   api.versionsFrom("2.7.1");
   api.use("ecmascript");
   api.use("react-meteor-data");
+  api.use("meteor");
+  api.use("ejson");
+  api.use("typescript");
+  api.use("mongo");
   Npm.depends({
     react: "16.13.1",
+    dexie: "3.2.1",
+    underscore: "1.13.1",
   });
 
+  api.addFiles("./lib/GroundedCollection.ts", "client");
   api.mainModule("client.js", "client");
 });
 
