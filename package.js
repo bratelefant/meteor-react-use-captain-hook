@@ -20,7 +20,6 @@ Package.onUse(function (api) {
   api.use("typescript");
   api.use("mongo");
   Npm.depends({
-    react: "16.13.1",
     dexie: "3.2.1",
     underscore: "1.13.1",
   });
