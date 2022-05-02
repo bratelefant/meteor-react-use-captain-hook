@@ -99,8 +99,9 @@ export const useCaptainHook = (
               }
             );
 
-            setOfflineData(res);
-            setReady(true);
+            if (res) {
+              setOfflineData(res);
+            }
           });
         } else {
           console.log("Relying on offline data from the cache", cache);
@@ -138,8 +139,8 @@ export const useCaptainHook = (
   }, []);
 
   console.log("Returning data " + ttl ? "from offline Cache" : "live", {
-    data: ttl ? offlineData : data,
+    data: ttl && ready ? offlineData : data,
     loading,
   });
-  return { data: ttl ? offlineData : data, loading };
+  return { data: ttl && ready ? offlineData : data, loading };
 };
