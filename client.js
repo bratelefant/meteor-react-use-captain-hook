@@ -39,18 +39,20 @@ export const useCaptainHook = (
 
   if (!filter) filter = {};
 
+  /*
   console.log("Using sub/methodname", subname);
   console.log("using collection", collection._name);
   console.log("Applying filter", filter);
   console.log("Take it to the ground?", groundit);
   console.log("This is the ttl", ttl);
+  */
 
   const noDataAvailable = { data: [] };
 
   const [offlineData, setOfflineData] = React.useState([]);
   const [ready, setReady] = React.useState(false);
 
-  if (ttl) console.log("Setting TTL to ", ttl);
+  // if (ttl) console.log("Setting TTL to ", ttl);
 
   if (!offlineCol.loaded()) {
     return { ...noDataAvailable, loading: true };
@@ -58,15 +60,17 @@ export const useCaptainHook = (
 
   if (ttl) {
     if (!ready) {
-      console.log("offlineCol set, not ready yet");
-      console.log("Offline Collection status:", offlineCol.loaded());
+      // console.log("offlineCol set, not ready yet");
+      // console.log("Offline Collection status:", offlineCol.loaded());
       var cache = offlineCol.findOne({ subname });
 
       if (!cache) {
+        /* 
         console.log("Got no cache entry, setting it to ", {
           subname,
           offlineData: [],
         });
+        */
         cache = {
           subname,
           offlineData: [],
@@ -74,11 +78,11 @@ export const useCaptainHook = (
         offlineCol.insert(cache);
       } else {
         if (!cache?._syncedAt || new Date() - cache._syncedAt > ttl) {
-          console.log("Cache empty or too old. Refresh data.");
+          // console.log("Cache empty or too old. Refresh data.");
 
           Meteor.call(subname, (err, res) => {
             if (err) console.warn(err);
-            console.log("Got this from the method call", res);
+            /* console.log("Got this from the method call", res);
             console.log(
               "update it like so: ",
               { subname },
@@ -89,6 +93,7 @@ export const useCaptainHook = (
                 },
               }
             );
+            */
             offlineCol.update(
               { subname },
               {
@@ -104,14 +109,14 @@ export const useCaptainHook = (
             }
           });
         } else {
-          console.log("Relying on offline data from the cache", cache);
+          // console.log("Relying on offline data from the cache", cache);
           setOfflineData(cache.offlineData);
           setReady(true);
         }
       }
     }
   } else {
-    console.log("No ttl set, using live data");
+    // console.log("No ttl set, using live data");
   }
 
   const { data, loading } = useTracker(() => {
@@ -138,9 +143,9 @@ export const useCaptainHook = (
     return { data, loading: false };
   }, []);
 
-  console.log("Returning data " + ttl ? "from offline Cache" : "live", {
+  /*console.log("Returning data " + ttl && ready ? "from offline Cache" : "live", {
     data: ttl && ready ? offlineData : data,
     loading,
-  });
+  });*/
   return { data: ttl && ready ? offlineData : data, loading };
 };
